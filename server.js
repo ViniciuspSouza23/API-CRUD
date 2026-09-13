@@ -205,11 +205,11 @@ app.use((req, res) => {
 });
 
 // Inicialização do servidor
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`=========================================`);
   console.log(`🚀 Servidor rodando com sucesso!`);
   console.log(`📡 Porta: ${PORT}`);
-  console.log(`🔗 Local: http://localhost:${PORT}`);
+  console.log(`🔗 Host: 0.0.0.0`);
   console.log(`📁 Armazenamento: ${DATA_FILE}`);
   console.log(`=========================================`);
 });
