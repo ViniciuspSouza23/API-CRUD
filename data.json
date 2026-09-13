@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1710284400000",
+    "titulo": "Revisar Aula 05 - SENAI",
+    "texto": "Estudar conceitos de rotas REST, middlewares, status HTTP e armazenamento via módulo fs.",
+    "criadoEm": "2024-03-12T20:00:00.000Z",
+    "atualizadoEm": "2026-09-13T00:22:59.947Z"
+  },
+  {
+    "id": "1710288000000",
+    "titulo": "Deploy da Aplicação",
+    "texto": "Realizar o deploy do back-end Node.js no Render e do front-end na Vercel.",
+    "criadoEm": "2024-03-12T21:00:00.000Z",
+    "atualizadoEm": "2026-09-13T00:22:57.658Z"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "name": "api-crud-notas",
+  "version": "1.0.0",
+  "description": "API REST de Notas (CRUD) desenvolvida para a Aula 05 do SENAI - Prof. Deivison Takatu",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["api", "crud", "express", "senai", "notes"],
+  "author": "Vinicius Souza",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2"
+  }
+}

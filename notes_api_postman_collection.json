@@ -1,0 +1,360 @@
+{
+  "info": {
+    "_postman_id": "c71a3f01-7b98-4c8d-bf34-a10c226487e4",
+    "name": "API REST de Notas (CRUD) - SENAI Aula 05",
+    "description": "Coleção completa de requisições para a API REST de Notas (CRUD) desenvolvida com Node.js e Express, utilizando persistência em arquivo data.json. Desenvolvida para a Aula 05 (Prof. Deivison Takatu).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string",
+      "description": "URL base da API (substitua pela URL do Render em produção, ex: https://api-crud-notes.onrender.com)"
+    },
+    {
+      "key": "noteId",
+      "value": "1710284400000",
+      "type": "string",
+      "description": "ID de exemplo para testes de rotas parametrizadas (:id)"
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Healthcheck & Informações",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api"
+          ]
+        },
+        "description": "Retorna o status da API e o catálogo de endpoints disponíveis."
+      },
+      "response": [
+        {
+          "name": "200 Sucesso",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api",
+              "host": ["{{baseUrl}}"],
+              "path": ["api"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" },
+            { "key": "Access-Control-Allow-Origin", "value": "*" }
+          ],
+          "body": "{\n  \"status\": \"online\",\n  \"mensagem\": \"API REST de Notas (CRUD) está ativa e operando.\",\n  \"endpoints\": {\n    \"listar\": \"GET /api/notes\",\n    \"criar\": \"POST /api/notes\",\n    \"obterPorId\": \"GET /api/notes/:id\",\n    \"atualizar\": \"PUT /api/notes/:id\",\n    \"excluir\": \"DELETE /api/notes/:id\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "1. Listar todas as notas (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/notes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "notes"
+          ]
+        },
+        "description": "Retorna um array JSON com todas as notas persistidas no arquivo data.json."
+      },
+      "response": [
+        {
+          "name": "200 Lista de Notas",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notes"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" },
+            { "key": "Access-Control-Allow-Origin", "value": "*" }
+          ],
+          "body": "[\n  {\n    \"id\": \"1710284400000\",\n    \"titulo\": \"Revisar Aula 05 - SENAI\",\n    \"texto\": \"Estudar conceitos de rotas REST, middlewares, status HTTP e armazenamento via módulo fs.\",\n    \"criadoEm\": \"2024-03-12T20:00:00.000Z\"\n  },\n  {\n    \"id\": \"1710288000000\",\n    \"titulo\": \"Deploy da Aplicação\",\n    \"texto\": \"Realizar o deploy do back-end Node.js no Render e do front-end na Vercel.\",\n    \"criadoEm\": \"2024-03-12T21:00:00.000Z\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "2. Criar nova nota (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Minha Nova Anotação\",\n  \"texto\": \"Conteúdo explicativo da nota criado via Postman para teste da API.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/notes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "notes"
+          ]
+        },
+        "description": "Cria um novo registro de nota. O back-end gera automaticamente o 'id' usando Date.now().toString() e o timestamp 'criadoEm'."
+      },
+      "response": [
+        {
+          "name": "201 Nota Criada com Sucesso",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Minha Nova Anotação\",\n  \"texto\": \"Conteúdo explicativo da nota criado via Postman para teste da API.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notes"]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" },
+            { "key": "Access-Control-Allow-Origin", "value": "*" }
+          ],
+          "body": "{\n  \"id\": \"1710300123456\",\n  \"titulo\": \"Minha Nova Anotação\",\n  \"texto\": \"Conteúdo explicativo da nota criado via Postman para teste da API.\",\n  \"criadoEm\": \"2024-03-13T00:15:00.000Z\"\n}"
+        },
+        {
+          "name": "400 Dados Incompletos",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notes"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "body": "{\n  \"erro\": \"Dados incompletos\",\n  \"mensagem\": \"Os campos \\\"titulo\\\" e \\\"texto\\\" são obrigatórios.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "3. Obter nota por ID (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/notes/{{noteId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "notes",
+            "{{noteId}}"
+          ]
+        },
+        "description": "Busca uma nota específica através do parâmetro de rota :id. Retorna 200 se encontrada ou 404 se não existir."
+      },
+      "response": [
+        {
+          "name": "200 Nota Encontrada",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/1710284400000",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notes", "1710284400000"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "body": "{\n  \"id\": \"1710284400000\",\n  \"titulo\": \"Revisar Aula 05 - SENAI\",\n  \"texto\": \"Estudar conceitos de rotas REST, middlewares, status HTTP e armazenamento via módulo fs.\",\n  \"criadoEm\": \"2024-03-12T20:00:00.000Z\"\n}"
+        },
+        {
+          "name": "404 Nota Não Encontrada",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/id-inexistente",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notes", "id-inexistente"]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "body": "{\n  \"erro\": \"Não encontrado\",\n  \"mensagem\": \"A nota com ID id-inexistente não foi encontrada.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "4. Atualizar nota existente (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Revisar Aula 05 - SENAI (Atualizado)\",\n  \"texto\": \"Conteúdo revisado com foco em boas práticas de API RESTful e testes com Postman.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/notes/{{noteId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "notes",
+            "{{noteId}}"
+          ]
+        },
+        "description": "Atualiza os campos titulo e texto de uma nota existente, preservando o id e a data de criação original, e adicionando 'atualizadoEm'."
+      },
+      "response": [
+        {
+          "name": "200 Nota Atualizada",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Revisar Aula 05 - SENAI (Atualizado)\",\n  \"texto\": \"Conteúdo revisado com foco em boas práticas de API RESTful e testes com Postman.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/1710284400000",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notes", "1710284400000"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "body": "{\n  \"id\": \"1710284400000\",\n  \"titulo\": \"Revisar Aula 05 - SENAI (Atualizado)\",\n  \"texto\": \"Conteúdo revisado com foco em boas práticas de API RESTful e testes com Postman.\",\n  \"criadoEm\": \"2024-03-12T20:00:00.000Z\",\n  \"atualizadoEm\": \"2024-03-13T00:20:00.000Z\"\n}"
+        },
+        {
+          "name": "404 Nota Não Encontrada para Atualização",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Novo\",\n  \"texto\": \"Novo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/99999999",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notes", "99999999"]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "body": "{\n  \"erro\": \"Não encontrado\",\n  \"mensagem\": \"A nota com ID 99999999 não foi encontrada para atualização.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "5. Excluir nota (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/notes/{{noteId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "notes",
+            "{{noteId}}"
+          ]
+        },
+        "description": "Remove uma nota do arquivo data.json. Retorna status HTTP 204 No Content quando removida com êxito, ou 404 caso o ID não exista."
+      },
+      "response": [
+        {
+          "name": "204 Removido com Sucesso (No Content)",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/1710284400000",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notes", "1710284400000"]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "plain",
+          "body": ""
+        },
+        {
+          "name": "404 Nota Não Encontrada para Exclusão",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/id-inexistente",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notes", "id-inexistente"]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "body": "{\n  \"erro\": \"Não encontrado\",\n  \"mensagem\": \"A nota com ID id-inexistente não foi encontrada para exclusão.\"\n}"
+        }
+      ]
+    }
+  ]
+}
