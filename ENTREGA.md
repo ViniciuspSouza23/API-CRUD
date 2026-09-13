@@ -13,7 +13,7 @@
 | Recurso | Link / Localização | Status |
 | :--- | :--- | :--- |
 | **Repositório GitHub** | [github.com/ViniciuspSouza23/API-CRUD](https://github.com/ViniciuspSouza23/API-CRUD) | Ativo / Versionado |
-| **Deploy da API (Render)** | `https://SEU-APP-NO-RENDER.onrender.com/api` *(substitua com sua URL)* | Produção |
+| **Deploy da API (Render)** | [https://api-crud-7no3.onrender.com/api](https://api-crud-7no3.onrender.com/api) | ✅ Online e Operando |
 | **Deploy do Front-end (Vercel)** | `https://SEU-APP-NA-VERCEL.vercel.app` *(substitua com sua URL)* | Produção |
 | **Coleção Postman** | Arquivo `notes_api_postman_collection.json` na raiz do repositório | Exportável v2.1.0 |
 

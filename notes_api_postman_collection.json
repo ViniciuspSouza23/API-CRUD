@@ -8,9 +8,9 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:3000",
+      "value": "https://api-crud-7no3.onrender.com",
       "type": "string",
-      "description": "URL base da API (substitua pela URL do Render em produção, ex: https://api-crud-notes.onrender.com)"
+      "description": "URL base da API no Render"
     },
     {
       "key": "noteId",
