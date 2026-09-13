@@ -8,11 +8,11 @@ let notes = [];
 let noteToDeleteId = null;
 
 // Determina URL da API padrão:
-// Se estiver rodando na mesma porta que a API (ex: http://localhost:3000), usa '/api/notes' relativo
-// Se estiver na Vercel ou com URL salva no localStorage, usa a configurada
-const DEFAULT_API_URL = window.location.origin.includes('localhost:3000') || window.location.origin.includes('127.0.0.1:3000')
-  ? '/api/notes'
-  : (localStorage.getItem('crud_notes_api_url') || 'https://api-crud-notes.onrender.com/api/notes');
+// Se estiver rodando no mesmo domínio da API (ex: localhost ou no próprio Render), usa a origem atual + '/api/notes'
+const isSameDomainBackend = !window.location.hostname.includes('vercel.app') && !window.location.hostname.includes('github.io');
+const DEFAULT_API_URL = isSameDomainBackend 
+  ? `${window.location.origin}/api/notes` 
+  : (localStorage.getItem('crud_notes_api_url') || 'https://sua-api.onrender.com/api/notes');
 
 let currentApiUrl = localStorage.getItem('crud_notes_api_url') || DEFAULT_API_URL;
 
