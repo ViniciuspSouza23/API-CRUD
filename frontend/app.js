@@ -117,33 +117,47 @@ function setupEventListeners() {
 // ==========================================
 // Gerenciamento de URL da API & Healthcheck
 // ==========================================
-function getNormalizedUrl(path = '') {
+function getNormalizedUrl(subpath = '') {
   let base = currentApiUrl.trim().replace(/\/+$/, '');
-  if (path && !base.endsWith('/api/notes')) {
-    // Se o usuário colocou apenas o domínio base (ex: https://meu-render.com)
-    if (!base.endsWith('/api')) {
+  
+  // Garante que o endpoint base sempre termine em /api/notes
+  if (!base.endsWith('/api/notes')) {
+    if (base.endsWith('/api')) {
+      base += '/notes';
+    } else {
       base += '/api/notes';
     }
   }
-  return path ? `${base}/${path}` : base;
+  return subpath ? `${base}/${subpath}` : base;
 }
 
 function handleSaveApiUrl() {
-  const newUrl = apiUrlInput.value.trim();
+  let newUrl = apiUrlInput.value.trim().replace(/\/+$/, '');
   if (!newUrl) {
     showToast('Informe uma URL válida para a API.', 'error');
     return;
   }
+
+  // Auto-completa /api/notes se o usuário colou apenas a raiz do Render
+  if (!newUrl.endsWith('/api/notes')) {
+    if (newUrl.endsWith('/api')) {
+      newUrl += '/notes';
+    } else {
+      newUrl += '/api/notes';
+    }
+  }
+
   currentApiUrl = newUrl;
+  apiUrlInput.value = newUrl;
   localStorage.setItem('crud_notes_api_url', newUrl);
-  showToast('URL da API atualizada com sucesso!', 'success');
+  showToast('URL conectada e ajustada para /api/notes!', 'success');
   checkApiHealth();
   fetchNotes();
 }
 
 function handleResetApiUrl() {
   localStorage.removeItem('crud_notes_api_url');
-  currentApiUrl = window.location.origin.includes('localhost') ? '/api/notes' : 'https://api-crud-notes.onrender.com/api/notes';
+  currentApiUrl = `${window.location.origin}/api/notes`;
   apiUrlInput.value = currentApiUrl;
   showToast('Restaurado para URL padrão.', 'success');
   checkApiHealth();
