@@ -25,8 +25,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware body-parser para interpretar corpos de requisição em formato JSON
+// Middleware body-parser para interpretar corpos de requisição em formato JSON e form-urlencoded
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Servir arquivos estáticos da pasta frontend (permite abrir o app na mesma porta local)
 app.use(express.static(path.join(__dirname, 'frontend')));
@@ -50,13 +51,20 @@ function readNotes() {
 }
 
 function writeNotes(notes) {
-  try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(notes, null, 2), 'utf-8');
-    return true;
-  } catch (error) {
-    console.error('Erro ao gravar em data.json:', error.message);
-    return false;
+  // Executa até 3 tentativas com pequena espera para evitar conflitos de bloqueio (ex: OneDrive no Windows)
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      fs.writeFileSync(DATA_FILE, JSON.stringify(notes, null, 2), 'utf-8');
+      return true;
+    } catch (error) {
+      console.error(`Erro ao gravar em data.json (tentativa ${attempt}):`, error.message);
+      if (attempt < 3) {
+        const wait = Date.now() + 60;
+        while (Date.now() < wait) {}
+      }
+    }
   }
+  return false;
 }
 
 // ==========================================
@@ -86,7 +94,7 @@ app.get('/api/notes', (req, res) => {
 
 // 2. POST /api/notes -> Cria uma nova nota
 app.post('/api/notes', (req, res) => {
-  const { titulo, texto } = req.body;
+  const { titulo, texto } = req.body || {};
 
   if (!titulo || !texto) {
     return res.status(400).json({
@@ -134,7 +142,7 @@ app.get('/api/notes/:id', (req, res) => {
 // 4. PUT /api/notes/:id -> Atualiza título e texto de uma nota existente
 app.put('/api/notes/:id', (req, res) => {
   const { id } = req.params;
-  const { titulo, texto } = req.body;
+  const { titulo, texto } = req.body || {};
 
   if (!titulo || !texto) {
     return res.status(400).json({
@@ -201,6 +209,15 @@ app.use((req, res) => {
   res.status(404).json({
     erro: 'Rota não encontrada',
     mensagem: `O caminho ${req.originalUrl} com método ${req.method} não existe nesta API.`
+  });
+});
+
+// Middleware global de tratamento de erros inesperados
+app.use((err, req, res, next) => {
+  console.error('Erro na API:', err.stack || err.message);
+  return res.status(err.status || 500).json({
+    erro: 'Erro interno no servidor',
+    mensagem: err.message || 'Ocorreu um erro ao processar a requisição.'
   });
 });
 
