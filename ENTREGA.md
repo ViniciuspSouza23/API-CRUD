@@ -103,24 +103,41 @@ A API foi construída em **Node.js** com **Express.js**, utilizando o módulo na
 
 ---
 
-### 5.3. Requisições no Postman (Evidências de cada Status HTTP)
-* **POST /api/notes (Status 201 Created):** *(Print da resposta)*
-* **GET /api/notes (Status 200 OK - Lista Completa):** *(Print da resposta)*
-* **GET /api/notes/:id (Status 404 Not Found para ID inexistente):** *(Print da resposta)*
-* **PUT /api/notes/:id (Status 200 OK - Nota Atualizada):** *(Print da resposta)*
-* **DELETE /api/notes/:id (Status 204 No Content):** *(Print da resposta)*
+### 5.3. Requisições no Postman (Evidências de cada Operação CRUD)
+
+#### 1. Listar todas as notas (`GET /api/notes` - Status 200 OK)
+Retorna o array completo com as notas persistidas em `data.json`.
+![Listar todas as notas (GET)](docs/prints/1_postman_get_all_notes.png)
 
 ---
 
-### 5.4. Painel de Deploy no Render
-*Insira aqui o print do serviço ativo no painel do Render com status "Live":*  
-*(Exemplo: cole a imagem `print_render_deploy.png`)*
+#### 2. Criar nova nota (`POST /api/notes` - Status 201 Created)
+Cria um novo registro gerando automaticamente `id` e timestamp `criadoEm`.
+![Criar nova nota (POST)](docs/prints/2_postman_post_create_note.png)
 
 ---
 
-### 5.5. Interface do Front-end em Operação
-*Insira aqui o print da aplicação aberta no navegador (Vercel ou local), demonstrando as notas listadas em cards modernos:*  
-*(Exemplo: cole a imagem `print_frontend_ui.png`)*
+#### 3. Obter nota específica por ID (`GET /api/notes/:id` - Status 200 OK)
+Busca e retorna com sucesso os dados de uma única nota através do parâmetro de rota `:id`.
+![Obter nota por ID (GET)](docs/prints/3_postman_get_note_by_id.png)
+
+---
+
+#### 4. Atualizar nota existente (`PUT /api/notes/:id` - Status 200 OK)
+Altera os campos `titulo` e `texto`, adicionando a propriedade `atualizadoEm` e preservando a data de criação original.
+![Atualizar nota existente (PUT)](docs/prints/4_postman_put_update_note.png)
+
+---
+
+#### 5. Excluir nota (`DELETE /api/notes/:id` - Status 204 No Content)
+Remove a nota com sucesso do arquivo `data.json`, retornando status padrão HTTP 204 sem corpo de resposta.
+![Excluir nota (DELETE)](docs/prints/5_postman_delete_note.png)
+
+---
+
+### 5.4. Interface do Front-end em Operação
+Demonstração da aplicação web responsiva em execução conectada à API REST:
+![Interface do Front-end em Operação](docs/prints/frontend_app_screen.png)
 
 ---
 
